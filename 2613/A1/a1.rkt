@@ -24,10 +24,6 @@
   (define nums (range 2 (add1 n)))
   (sieve-with nums nums))
 
-;; Part 4, use prime? function from math module and use it as a test to check against my solution
-(define (getPrime n)
-  (define nums (range 0 (add1 n)))
-  (filter (lambda (i) (prime? i)) nums))
 
 ;; Dr. David Bremner said we did not have to check for an empty list, or when a divisor is either 0 or 1
 (module+ test
@@ -40,7 +36,8 @@
   (check-equal? (sieve-with '(5 7) (list 10 15 20 22)) (list 22))
   (check-equal? (sieve 10) (list 2 3 5 7))
   (check-equal? (sieve 10) (list 2 3 5 7))
-  (check-equal? (getPrime 200) (sieve 200)))
+  ;;part 4 check against my implementation
+  (check-equal? (filter prime? (sieve 10)) (sieve 10)))
 
 
 ;; Uncomment to run this test. It takes a little bit
