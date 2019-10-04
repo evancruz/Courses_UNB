@@ -1,0 +1,9 @@
+#lang racket
+
+(require xml)
+(define (load-xexpr path)
+  (xml->xexpr (document-element (read-xml (open-input-file path)))))
+
+(require explorer)
+(define data (load-xexpr "rubrics.xml"))
+(explore data)
