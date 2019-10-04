@@ -88,11 +88,30 @@
 (define (criteria-names listIn)
   (list (assoc* `name (second (third (fourth listIn)))) (assoc* `name (second (fourth (fourth listIn))))))
 
+
                                                      
 (module+ test
   (for ([level  (criteria-levels (first (criteria-groups (first rubrics))))])
     (check-equal? (first level) 'level))
   (check-equal? (sort (criteria-names (first (criteria-groups (first rubrics)))) string<=?)
                 '("Content" "Technical skills")))
+
+
+;;;;;;;;;;;;;;;
+;;;;Part 6
+;;;;;;;;;;;;;;;
+
+;;I dont know of a better way other than just drilling into the xml by calling fourth, third, etc
+(define (level-name-score listIn)
+ (list (assoc* `name (second listIn)) (exact-round(string->number(assoc* `level_value (second listIn))))))
+
+  
+(module+ test
+  (check-equal? (map level-name-score (criteria-levels (first (criteria-groups (first rubrics)))))
+                '(("Needs improvement" 0)
+                  ("Minimally satifactory" 1)
+                  ("Good" 2)
+                  ("Excellent" 3))))
+
 
 
