@@ -1,3 +1,135 @@
 template literals
 `half of 100 is ${100 / 2}`
-When you write something inside ${} in a template literal, its result will be computed, converted to a string, and included at that position. The example produces “half of 100 is 50”.
+When you write something inside ${} in a template literal,its result will be computed converted to a string, and included at that position.
+ The example produces “half of 100 is 50”.
+
+Booleans
+The rules for converting strings and numbers to Boolean values state 
+that 0, NaN, and the empty string ("") count as false, while all the other values
+count as true. So 0 || -1 produces -1, and "" || "!?" yields "!?".
+
+Let
+A single let statement may define multiple bindings. The definitions 
+must be separated by commas.
+ let one = 1, two = 2;
+
+
+Functions
+const square = function(x) {
+  return x * x;
+};
+ The function body of a function created this way must always be wrapped in braces, even when it consists of only a single statement.
+
+function square(x) {
+  return x * x;
+}
+This is a function declaration. The statement defines the binding square and points it at the given function. It is slightly easier to write and doesn’t require a semicolon after the function.
+
+There is one subtlety with this form of function definition.
+
+console.log("The future says:", future());
+
+function future() {
+  return "You'll never have flying cars";
+}
+The preceding code works, even though the function is defined below the code that uses it. Function declarations are not part of the regular top-to-bottom flow of control. They are conceptually moved to the top of their scope and can be used by all the code in that scope. 
+
+ARROW!!!!
+const power = (base, exponent) => {
+  //blah
+};
+
+When there is only one parameter name, you can omit the parentheses around the parameter list. If the body is a single expression, rather than a block in braces, that expression will be returned from the function. So, these two definitions of square do the same thing:
+
+const square1 = (x) => { return x * x; };
+const square2 = x => x * x;
+When an arrow function has no parameters at all, its parameter list is just an empty set of parentheses.
+
+const horn = () => {
+  console.log("Toot");
+};
+There’s no deep reason to have both arrow functions and function expressions in the language. Apart from a minor detail, they do the same thing. Arrow functions were added in 2015, mostly to make it possible to write small function expressions in a less verbose way. 
+
+
+Bindings
+each binding has a scope, which is the part of the program in which the binding is visible. For bindings defined outside of any function or block, the scope is the whole program—you can refer to such bindings wherever you want. These are called global.
+
+Number of args
+JavaScript is extremely broad-minded about the number of arguments you pass to a function. If you pass too few, the missing parameters get assigned the value undefined.
+
+Closure
+The ability to treat functions as values, combined with the fact that local bindings are re-created every time a function is called, brings up an interesting question. What happens to local bindings when the function call that created them is no longer active?
+
+function wrapValue(n) {
+  let local = n;
+  return () => local;
+}
+let wrap1 = wrapValue(1);
+ console.log(wrap1());
+ // → 1
+being able to reference a specific instance of a local binding in an enclosing scope—is called closure. 
+
+
+DATA STRUCTURES: Objects and Arrays
+PUSH, POP, SHIFT, UNSHIFT
+
+Array: 
+let arr = [1, 2, 3];
+
+Obj: Inside the braces, there is a list of properties separated by commas. Each property has a name followed by a colon and a value.
+
+ let day1 = {
+squirrel: false,
+events: ["work", "touched tree", "pizza", "running"]
+};
+
+
+There’s an Object.assign function that copies all properties from one object into another.
+let objectA = {a: 1, b: 2}; Object.assign(objectA, {b: 3, c: 4}); console.log(objectA);
+// → {a: 1, b: 3, c: 4}
+
+To find out what properties an object has, you can use the Object.keys function. You give it an object, and it returns an array of strings—the object’s property names.
+console.log(Object.keys({x: 0, y: 0, z: 2})); // → ["x", "y", "z"]
+Arrays, then, are just a kind of object specialized for storing sequences of things. If you evaluate typeof [], it produces "object". 
+
+let journal = [
+{events: ["work", "touched tree", "pizza",
+"running", "television"], squirrel: false},
+{events: ["work", "ice cream", "cauliflower", "lasagna", "touched tree", "brushed teeth"],
+squirrel: false},
+{events: ["weekend", "cycling", "break", "peanuts",
+"beer"], squirrel: true},
+   /* and so on... */
+ ];
+
+
+FOR LOOP
+for (let i = 0; i < JOURNAL.length; i++) {
+   let entry = JOURNAL[i];
+   // Do something with entry
+}
+There is a simpler way to write such loops in modern JavaScript.
+
+for (let entry of JOURNAL) { console.log(`${entry.events.length} events.`);
+}
+This works not only for arrays but also for strings and some other data structures. 
+
+Another fundamental array method is slice, which takes start and end in- dices and returns an array that has only the elements between them. The start index is inclusive, the end index exclusive.
+console.log([0, 1, 2, 3, 4].slice(2, 4)); // → [2, 3]
+When the end index is not given, slice will take all of the elements after the start index. You can also omit the start index to copy the entire array.
+
+REST PARAMATERS
+To write such a function, you put three dots before the function’s last parameter, like this:
+ function max(...numbers) {
+   let result = -Infinity;
+   for (let number of numbers) {
+     if (number > result) result = number;
+   }
+   return result;
+ }
+ console.log(max(4, 1, 9, -2));
+ // → 9
+
+Square bracket array notation similarly allows the triple-dot operator to spread another array into the new array.
+let words = ["never", "fully"]; console.log(["will", ...words, "understand"]); // → ["will", "never", "fully", "understand"]
+
