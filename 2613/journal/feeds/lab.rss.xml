@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<rss version="2.0">
+ <channel>
+  <title>My Blog: Posts tagged 'lab'</title>
+  <description>My Blog: Posts tagged 'lab'</description>
+  <link>http://www.example.com/tags/lab.html</link>
+  <lastBuildDate>Thu, 26 Sep 2019 12:14:24 UT</lastBuildDate>
+  <pubDate>Thu, 26 Sep 2019 12:14:24 UT</pubDate>
+  <ttl>1800</ttl>
+  <item>
+   <title>Lab7</title>
+   <link>http://www.example.com/2019/09/lab7.html?utm_source=lab&amp;utm_medium=RSS</link>
+   <guid isPermaLink="false">urn:http-www-example-com:-2019-09-lab7-html</guid>
+   <pubDate>Thu, 26 Sep 2019 12:14:24 UT</pubDate>
+   <author>The Unknown Author</author>
+   <description>
+&lt;p&gt;Lab 7 consisted of learning macros, short-circuiting, pattern matching, and combinators. I&amp;rsquo;ve heard of macros before especially in the context of cybersecurity, such as malware being spread through Microsoft Word&amp;rsquo;s macro features. One &lt;a href="https://insights.sei.cmu.edu/cert/2016/06/who-needs-to-exploit-vulnerabilities-when-you-have-macros.html"&gt;blog&lt;/a&gt; even suggests disabling macros almost completely for companies unless they have already been vetted and approved. In the lab, we learned to use macros as a way to redefine &lt;strong&gt;and&lt;/strong&gt; as well as &lt;strong&gt;or&lt;/strong&gt;. Part of the implementation, required understanding &lt;a href="https://www.interviewcake.com/concept/java/short-circuit-evaluation"&gt;short-circuiting&lt;/a&gt;, so that our &lt;em&gt;die&lt;/em&gt; function wouldn&amp;rsquo;t cause our tests to fail. My &lt;strong&gt;or&lt;/strong&gt; implementation looked like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(define-syntax-rule (Or a b)
+  (if b #t a)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Pattern matching is described as being &amp;ldquo;a fancy cond&amp;rdquo;, where a pattern is specified to match against data being sent. For this part, I had to just follow the professor as there are cracks in my knowledge concerning racket. After this part was done, I spent some time reading about how &lt;em&gt;eval&lt;/em&gt; operates on a list at runtime, which makes it flexible but also &lt;a href="https://en.wikipedia.org/wiki/Code_injection#Dynamic_evaluation_vulnerabilities"&gt;dangerous&lt;/a&gt;.  eval is an example of reflection, because it operates on a regular list at runtime. This makes it very flexible but also somewhat dangerous. &amp;gt; An eval() injection vulnerability occurs when an attacker can control all or part of an input string that is fed into an eval() function call. The rest of the lab wasn&amp;rsquo;t too bad, but there wasn&amp;rsquo;t anything else that was interesting enough to grab my attention. As for tasks, there were just suggested readings and of course the lab activities.&lt;/p&gt;&lt;a href="http://www.example.com/2019/09/lab7.html?utm_source=lab&amp;amp;utm_medium=RSS"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</description></item>
+  <item>
+   <title>L04 Post</title>
+   <link>http://www.example.com/2019/09/l04-post.html?utm_source=lab&amp;utm_medium=RSS</link>
+   <guid isPermaLink="false">urn:http-www-example-com:-2019-09-l04-post-html</guid>
+   <pubDate>Tue, 17 Sep 2019 15:35:41 UT</pubDate>
+   <author>The Unknown Author</author>
+   <description>
+&lt;p&gt;Scribble was introduced today and the most interesting part about it was the fact that functions could be defined and used in a blog post. Another concept introduced was modules which are similar to Java&amp;rsquo;s &lt;a href="https://www.leepoint.net/language/10basics/import.html"&gt;import&lt;/a&gt; or Javascript&amp;rsquo;s &lt;a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export"&gt;export&lt;/a&gt;. One of the things I practiced was debugging and recursion, and in doing so I found an interesting error. In the &lt;strong&gt;else&lt;/strong&gt; part of this code block:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(define (fact n)
+      (cond
+        [(zero? n) 1]
+        [else                     ])) &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I put:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(fact (* n (n-1)))&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which caused DrRacket to give me this error &lt;em&gt;n&amp;ndash;1: unbound identifier in: n&amp;ndash;1&lt;/em&gt; and I very quickly realized that how I&amp;rsquo;m used to programming in other languages actually became a hindrance here. Racket was looking for a id named &lt;em&gt;n&amp;ndash;1&lt;/em&gt; and I thought it would know that I wanted to pass the variable &lt;em&gt;n&lt;/em&gt; subtracted by 1. Finally, there were no explicit readings but rather suggested readings. We were required to push all of our work for this lab and of course this post!&lt;/p&gt;&lt;a href="http://www.example.com/2019/09/l04-post.html?utm_source=lab&amp;amp;utm_medium=RSS"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</description></item></channel></rss>

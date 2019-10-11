@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<rss version="2.0">
+ <channel>
+  <title>My Blog: Posts tagged 'Lab'</title>
+  <description>My Blog: Posts tagged 'Lab'</description>
+  <link>http://www.example.com/tags/Lab.html</link>
+  <lastBuildDate>Wed, 11 Sep 2019 10:39:29 UT</lastBuildDate>
+  <pubDate>Wed, 11 Sep 2019 10:39:29 UT</pubDate>
+  <ttl>1800</ttl>
+  <item>
+   <title>Lab 2</title>
+   <link>http://www.example.com/2019/09/lab-2.html?utm_source=Lab&amp;utm_medium=RSS</link>
+   <guid isPermaLink="false">urn:http-www-example-com:-2019-09-lab-2-html</guid>
+   <pubDate>Wed, 11 Sep 2019 10:39:29 UT</pubDate>
+   <author>The Unknown Author</author>
+   <description>
+&lt;p&gt;I didn&amp;rsquo;t really learn any new concepts from a high level perspective but I did learn racket syntax. Familiar concepts included conditionals and definitions.  I practiced writing small programs in the racket language and using the DrRacket IDE. An interesting part about racket is that there are (brackets) everywhere! For this lab, I was required to read the racket quick tutorial and a peer&amp;rsquo;s git log.&lt;/p&gt;&lt;a href="http://www.example.com/2019/09/lab-2.html?utm_source=Lab&amp;amp;utm_medium=RSS"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</description></item></channel></rss>

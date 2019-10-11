@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+ <title type="text">My Blog: Posts tagged 'Lab'</title>
+ <link rel="self" href="http://www.example.com/feeds/Lab.atom.xml" />
+ <link href="http://www.example.com/tags/Lab.html" />
+ <id>urn:http-www-example-com:-tags-Lab-html</id>
+ <updated>2019-09-11T10:39:29Z</updated>
+ <entry>
+  <title type="text">Lab 2</title>
+  <link rel="alternate" href="http://www.example.com/2019/09/lab-2.html?utm_source=Lab&amp;utm_medium=Atom" />
+  <id>urn:http-www-example-com:-2019-09-lab-2-html</id>
+  <published>2019-09-11T10:39:29Z</published>
+  <updated>2019-09-11T10:39:29Z</updated>
+  <author>
+   <name>The Unknown Author</name></author>
+  <content type="html">
+&lt;p&gt;I didn&amp;rsquo;t really learn any new concepts from a high level perspective but I did learn racket syntax. Familiar concepts included conditionals and definitions.  I practiced writing small programs in the racket language and using the DrRacket IDE. An interesting part about racket is that there are (brackets) everywhere! For this lab, I was required to read the racket quick tutorial and a peer&amp;rsquo;s git log.&lt;/p&gt;&lt;a href="http://www.example.com/2019/09/lab-2.html?utm_source=Lab&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry></feed>

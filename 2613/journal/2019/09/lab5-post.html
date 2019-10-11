@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>Lab5 Post</title>
+    <meta name="description" content="Lab 5 introduced tail recursion which took my head for a spin in an effort to understand what is truly going on. Recursion of course is familiar but tail recursion was certainly a new concept. Helper methods and stack tracing was also introduced but alrea...">
+    <meta name="author"      content="The Unknown Author">
+    <meta name="keywords"    content="labs">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="/favicon.ico">
+    <link rel="canonical" href="http://www.example.com/2019/09/lab5-post.html">
+    <link rel="next" href="/2019/09/l04-post.html">
+    <link rel="prev" href="/2019/09/lab6.html">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="/feeds/all.atom.xml" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="/feeds/all.rss.xml" title="RSS Feed">
+    <!-- JS -->
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-xxxxx', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- A standard Twitter Bootstrap nav bar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div class="container">
+
+      <a href="/index.html" class="navbar-brand">My Blog Brand</a>
+
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+              data-target="#navbar_collapse" aria-controls="navbar_collapse"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar_collapse">
+          <ul class="navbar-nav mr-auto">
+
+
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                Tags <b class="caret"></b>
+              </a>
+
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="/tags/lab.html">lab</a><a class="dropdown-item" href="/tags/Lab.html">Lab</a><a class="dropdown-item" href="/tags/Lab-1.html">Lab 1</a><a class="dropdown-item" href="/tags/labs.html">labs</a>
+              </div>
+            </li>
+
+            <li>
+              <a class="nav-link" href="/About.html">About</a>
+            </li> 
+
+            <li class="nav-item">
+              <a class="nav-link" href="/feeds/all.atom.xml">Atom</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/feeds/all.rss.xml">RSS</a>
+            </li>
+          </ul>
+      </div>
+
+      </div>
+    </nav>
+
+
+    <div class="container">
+      <div class="row">
+
+        <!-- Main column -->
+        <div id="content" class="col-md-12">
+
+
+
+
+
+          <article>
+  <header>
+    <h1>Lab5 Post</h1>
+    <p class='date-and-tags'>
+<time datetime="2019-09-19" pubdate="true">2019-09-19</time> :: <span class="tags"><a href="/tags/labs.html">labs</a></span></p>
+    <p class='authors'>By: <span class="authors">The Unknown Author</span></p>
+  </header>
+
+<p>Lab 5 introduced <a href="https://docs.racket-lang.org/guide/Lists__Iteration__and_Recursion.html#%28part._tail-recursion%29">tail recursion</a> which took my head for a spin in an effort to understand what is truly going on. Recursion of course is familiar but tail recursion was certainly a new concept. Helper methods and stack tracing was also introduced but already known to me. I practiced recursive thinking (in a new way) and loops. It was very interesting that the <em>odds-evens2</em> function (which uses tail recursion) was significantly faster than the other functions. Dr. David Bremner mentioned that one of the reasons for this is because this is a case where the makers of the language found a way to optimize the language due to their knowledge of how stack frames work in regards to recursion. According to Racket then,</p>
+
+<blockquote>
+ <p>&ldquo;tail recursion refers to the special case where the return value of the recursive branch is nothing more than the value of the next recursive call (also known as a tail call).&rdquo;</p></blockquote>
+
+<p>There is definitely a use for the technique but I still find it a little confusing and difficult and most likely will never use it. I also found out about using the <em>range</em> function to create numbers instead of build-list which will be very useful for me. The range function looks like this: <code>(range 1000000)</code> Most likely I will use this in my assignment 1 submission. The last task given dealt with Numerical Integration examples (using calculus). It&rsquo;s been a long time since I used calculus but thankfully a deep background in mathematics was not required, all that was required was to fix some failing tests. Also, aside from some suggested background reading we were required to stack trace, complete the <em>odds-evens2</em> function, compare function speeds and commit our work.</p>
+
+<h3 id="reference">Reference:</h3>
+
+<p><a href="https://beautifulracket.com/explainer/recursion.html">Racket</a></p>
+<!-- more-->
+  <footer>
+    <div class="row justify-content-center">
+      <nav aria-label="Page Navigation">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="/2019/09/l04-post.html"
+               aria-label="Previous">
+              <span aria-hidden="true">&larr; L04 Post</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="/2019/09/lab6.html"
+               aria-label="Next">
+              <span aria-hidden="true">Lab6 &rarr;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</article>
+        </div>
+      </div>
+      <footer>
+      </footer>
+    </div>
+    <!-- </body> JS -->
+    <script type="text/javascript" src="/js/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
