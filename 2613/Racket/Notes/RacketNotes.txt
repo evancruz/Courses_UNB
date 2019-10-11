@@ -1,6 +1,4 @@
-;; The first three lines of this file were inserted by DrRacket. They record metadata
-;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname RacketNotes) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp")) #f)))
+
 When we form a list, we always start out with the empty list. In BSL, we represent the empty list with '()
  Like #true or 5, '() is just a constant. When we add something to a list, we construct another list
 ; in BSL, the cons operation serves this purpose. For example,
@@ -12,3 +10,32 @@ The box for cons has two fields: first and rest.
   (cons "Mercury"
     '()))
 First = venus, rest = first = "mercury" rest = '()
+
+#######LET
+#lang slideshow
+(define (do-the thing left right)
+	(thing left right))
+
+(let* ([x 10]
+       [y (+ x 10)])
+       (* x y))
+
+; in Java
+;Square sq = new Square()
+;return sq.colorize("red")
+
+(colorize (square 100) "red")
+
+; mimic java
+(let* ([sqr (square 100)])
+  (colorize sqr "blue"))
+
+
+
+(define (series2 mk)
+  (apply hc-append 4 (map mk '(5 10 20))))
+
+(define (series3 mk)
+  (apply hc-append 1 (build-list 100 mk)))
+
+(build-list 20 (lambda (x) (* x 5)))
