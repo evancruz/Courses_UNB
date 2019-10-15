@@ -1,8 +1,0 @@
-http://www.example.com/2019/09/lab7.html
-http://www.example.com/2019/09/lab6.html
-http://www.example.com/2019/09/lab-1-post.html
-http://www.example.com/2019/09/lab3-post.html
-http://www.example.com/2019/09/lab-2.html
-http://www.example.com/2019/09/lab5-post.html
-http://www.example.com/2019/09/l04-post.html
-http://www.example.com/About.html
