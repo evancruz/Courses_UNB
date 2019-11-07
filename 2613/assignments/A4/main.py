@@ -1,25 +1,25 @@
 import csv
 
-
 def read_csv(filename):
    '''
       Read a CSV file, return list of rows
    '''
-   aList = [];
+   lstOfCategories = []
    with open(filename, newline='') as f:
+      #reader = csv.reader(f, delimiter=',')
       reader = csv.reader(f)
 
       for row in reader:
-         aList.append(row);
-         #print(aList)
-   return aList;
+         lstOfCategories.append([category.strip() for category in row])
+   return lstOfCategories
 
 someList = read_csv('test1.csv')
-print(someList);
+print()
+print(someList)
 
 
-def header_map (list):
-   for 
+#def header_map (list):
+   #for 
    #assert hmap == { 'name': 0, 'age': 1, 'eye colour': 2 }
 
-print(header_map(someList[0]));
+#print(header_map(someList[0]));
