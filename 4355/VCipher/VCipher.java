@@ -36,12 +36,7 @@ public class VCipher {
             int cipherKeyIndex = 0;
 
             CipherLetterFreq(CipherFrequency, subBlock, keyPeriod, cipher);
-            System.out.println("Freq");
             
-            for(double num : CipherFrequency){
-               System.out.println(num);
-               
-            }
 
             int ckIndex = 0;
             for (int k = 0; k < 26; k++) {
@@ -71,6 +66,33 @@ public class VCipher {
       
    }// endmain
 
+   
+
+   /*
+      shiftBlock: First finds the largest C(k) value that was previously calculated 
+      and stored then shifts all the letters in the subBlock by that amount
+   */
+   public static void shiftBlock(double CK[], int subBlock, int kp, String cipher, char buffer[]) {
+      double largest = CK[0];
+      // k is shift
+      int k = 0;
+      for (int i = 1; i < CK.length; i++) {
+         if (CK[i] > largest) {
+            largest = CK[i];
+            k = i;
+         }
+      }
+
+      for (int i = subBlock; i < cipher.length(); i = i + kp) {
+         char eLetter = cipher.charAt(i);
+         int dLetter = eLetter - 65;
+         dLetter = ((dLetter - k) + 26) % 26;
+         dLetter += 65;
+         buffer[i] = (char) dLetter;
+         //buffer[i] = eLetter;
+      }
+   }
+
 
    //relative frequencies of all letters
    public static double[] initRF() {
@@ -98,7 +120,6 @@ public class VCipher {
          index = findNextLetter(index, keyPeriod, cipher);
       }
 
-      System.out.println("subBlockLen: " + subBlockLen);
       // after counting occurence of each alphabetic letter (A-Z)
       // divide by the length of the block
       for (int i = 0; i < 26; i++) {
@@ -113,31 +134,6 @@ public class VCipher {
    public static void initCF(double CipherFrequency[]) {
       for (int i = 0; i < 26; i++) {
          CipherFrequency[i] = 0;
-      }
-   }
-
-   /*
-      shiftBlock: First finds the largest C(k) value that was previously calculated
-      and stored then shifts all the letters in the subBlock by that amount
-    */
-   public static void shiftBlock(double CK[], int subBlock, int kp, String cipher, char buffer[]) {
-      double largest = CK[0];
-      // k is shift
-      int k = 0;
-      for (int i = 1; i < CK.length; i++) {
-         if (CK[i] > largest) {
-            largest = CK[i];
-            k = i;
-         }
-      }
-
-      for (int i = subBlock; i < cipher.length(); i = i + kp) {
-         char eLetter = cipher.charAt(i);
-         int dLetter = eLetter - 65;
-         dLetter = ((dLetter - k) + 26) % 26;
-         dLetter += 65;
-         eLetter = (char) dLetter;
-         buffer[i] = eLetter;
       }
    }
 
@@ -176,4 +172,4 @@ public class VCipher {
 
 }// end class
 
-
+ 
