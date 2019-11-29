@@ -5,10 +5,7 @@ import java.io.FileNotFoundException;
 
 public class VCipher {
 
-   /*
-    * Key length = 4 is given
-      Cipher: OOFWGTXYE - FKVY MHIULX WTOGLE TH AMBELFS MV XAIAAPL, KQSDAAPL, ZQROLD AGK YUVO YOKL - FONJT NXHDLR LHEKF MSILOT HM PABSK LBMQ IG AADT- F’E MHKQRG DAREK. FEVOZOEVSY BZ BOPLDEW UAT CBET UF EIEPOOG JTIIZ MN- W LXEVADIVPFY, UBF BR ATE VYQAMPHIMF MNW PZGXUGIMF AF VVYPNAQR LJUE- GAUSMZ IHH ADAGZXAML EOVPQTR’Z ZEXKE AGK IAGAE IGAA PKVPUVAE TAHF CTU UMIYAVX IATA ZACBLFY TUP TAL QCHUAMR.
-    */
+   //Key length = 4 is given
    public static void main(String args[]) {
 
       try {
@@ -29,14 +26,12 @@ public class VCipher {
          int keyPeriod = 4;
 
          
-
          // C(k) = from i=0 to 25 -> CipherFrequency[i] * PF[(i-k + 26)mod26] , k = 0,1,...25
          // a subBlock is a block of letters that have been shifted by the cipher
          for (int subBlock = 0; subBlock < keyPeriod; subBlock++) {
             int cipherKeyIndex = 0;
 
             CipherLetterFreq(CipherFrequency, subBlock, keyPeriod, cipher);
-            
 
             int ckIndex = 0;
             for (int k = 0; k < 26; k++) {
@@ -72,7 +67,7 @@ public class VCipher {
       shiftBlock: First finds the largest C(k) value that was previously calculated 
       and stored then shifts all the letters in the subBlock by that amount
    */
-   public static void shiftBlock(double CK[], int subBlock, int kp, String cipher, char buffer[]) {
+   public static void shiftBlock(double CK[], int subBlock, int keyPeriod, String cipher, char buffer[]) {
       double largest = CK[0];
       // k is shift
       int k = 0;
@@ -83,14 +78,45 @@ public class VCipher {
          }
       }
 
-      for (int i = subBlock; i < cipher.length(); i = i + kp) {
-         char eLetter = cipher.charAt(i);
+
+      int index = subBlock;
+      while (index < cipher.length()) {
+         char eLetter = cipher.charAt(index);
          int dLetter = eLetter - 65;
          dLetter = ((dLetter - k) + 26) % 26;
          dLetter += 65;
-         buffer[i] = (char) dLetter;
-         //buffer[i] = eLetter;
+         buffer[index] = (char) dLetter;
+         index = findNextIndex(index, keyPeriod, cipher, buffer);
       }
+         
+      
+   }
+
+   //similar to findNextLetter except this writes non letters to the buffer
+   public static int findNextIndex(int i, int key, String cipher, char[] buffer) {
+      // Index is at the end. need to return
+      if (i == cipher.length() - 1) {
+         return cipher.length();
+      }
+      int keyLength = 0;
+      char character;
+
+      while (keyLength < key) {
+         i++;
+         character = cipher.charAt(i);
+
+         while (!isLetter(character)) {
+            buffer[i] = character;
+            i++;
+            // 380 = R 381 = . END = 382
+            if (i == cipher.length()) {
+               return cipher.length();
+            }
+            character = cipher.charAt(i);
+         }
+         keyLength++;
+      }
+      return i;
    }
 
 
