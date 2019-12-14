@@ -12,11 +12,11 @@ class Token:
         self.type = type
         self.value = value
 
-    def __str__(self):
-        return '[' + self.type.name + ': ' + str(self.value) + ']'
+    # def __str__(self):
+    #     return '[' + self.type.name + ': ' + str(self.value) + ']'
 
-    def __eq__(self, other):
-        # ident is case sensitive.
+    # def __eq__(self, other):
+    #     # ident is case sensitive.
 
 
 

@@ -84,7 +84,7 @@ But you can also run the module directly as a standalone program, in which case 
 
 '''
 Chapter 2 
-TYPES/LISTS/TUPLES
+TYPES/LISTS/TUPLES/SETS/DICTIONARY
    Lists are ordered sequences of values.
    Tuples are ordered, immutable sequences of values.
    Sets are unordered bags of values.
@@ -92,7 +92,7 @@ TYPES/LISTS/TUPLES
 
    Everything is an object in Python, so there are types like module, function, class, method, file, and even compiled code. 
 
-   Slice
+   BUILD LIST + Slice
    a_list = ['a', 'b', 'mpilgrim', 'z', 'example']
    a_list[1:3] -> gives ['b', 'mpilgrim']
    a_list[:] -> copies entire array
@@ -127,7 +127,8 @@ TYPES/LISTS/TUPLES
 
    
 
-   TUPLES
+   BUILD TUPLES >>> tup = ("a", "b")
+   
    a_tuple = ("a", "b", "mpilgrim", "z", "example")
    You can slice a tuple (because that creates a new tuple)and you can check whether a tuple contains a particular value
 
@@ -139,7 +140,7 @@ TYPES/LISTS/TUPLES
 
 
 
-   SETS   >>> a_set = {1}
+   BUILD SETS   >>> a_set = {1}
    A set is an unordered “bag” of unique values. A single set can contain values of any immutable datatype. Once you have two sets, you can do standard set operations like union, intersection, and set difference.
 
    a_set.add(4)
@@ -149,7 +150,7 @@ TYPES/LISTS/TUPLES
 
    
 
-   DICTIONARIES 
+   BUILD DICTIONARY
    Python dictionaries are optimized for retrieving the value when you know the key, but not the other way around.
 
    a_dict = {'server': 'db.diveintopython3.org', 'database': 'mysql'}

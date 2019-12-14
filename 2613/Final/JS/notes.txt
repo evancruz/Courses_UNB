@@ -193,23 +193,3 @@ let list = {
     }
   }
 };
-
-
-CLASSES
-Methods are nothing more than properties that hold function values
-let rabbit = {};
-rabbit.speak = function(line) {
-  console.log(`The rabbit says '${line}'`);
-};
-rabbit.speak("I'm alive.");
-
-Create Classes 
-class Rabbit {
-  constructor(type) {
-    this.type = type;
-  }
-  speak(line) {
-    console.log(`The ${this.type} rabbit says '${line}'`);
-  }
-}
-
