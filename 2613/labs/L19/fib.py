@@ -21,15 +21,3 @@ class Fib:
         else:
             raise StopIteration
 
-# 21. Deep Work by Cal Newport
-# 29. How to Win at the Sport of Business: If I Can Do It, You Can Do It by Mark Cuban
-# 41. The Art of Thinking Clearly by Rolf Dobelli
-# 42. The Hard Thing About Hard Things by Ben Horowitz
-# Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones
-# Advanced Calculus by Woods
-
-#  “The chief enemy of good decisions is a lack of sufficient perspectives on a problem.”
-
-
-# Strength
-# Starting Strength: Basic Barbell Training

@@ -1,0 +1,111 @@
+https://assets.digitalocean.com/books/python/how-to-code-in-python.pdf
+
+
+TUPLE: Used for grouping data. It is an immutable ordered sequence of elements.
+('blue coral', 'staghorn coral', 'pillar coral')
+
+DICTIONARY: Python’s built-in mapping type.
+{'name': 'Sammy', 'animal': 'shark', 'color': 'blue',
+'location': 'ocean'}
+
+isolate -> sammy['color']
+
+STRINGS:
+* repeats a string 
+r for raw string 
+methods: str.isalnum() #alphanumeric, isalpha()#alphabetic, isnumeric(), len(str), join, split, replace
+
+print(balloon.split("a")) #removes letter a 
+ss = "Sammy Shark!"
+print(ss[6:11])
+
+
+DATA TYPES
+assingning variables: 
+j, k, l = "shark", 2.05, 15
+x=y=z=0
+
+Using Formatters
+print("Sammy has {} balloons.".format(5))
+Output:
+Sammy has 5 balloons.
+print("Sammy the {pr} {1} a {0}.".format("shark", "made", pr = "pull request"))
+
+{field_name:conversion}
+"Sammy ate {0:.3f}
+Output:
+Sammy ate 75.000
+
+x ** y = x to the power y
+
+
+FOR LOOP
+for i in range(3,13):
+    print(i)
+
+
+Number Functions
+The sum() function is used for calculating sums of numeric compound data types, including lists, tuples, and dictionaries.
+
+LISTS: mutable, ordered sequence of elements
+seaCreatures = ['shark', 'cuttlefish', 23]
+print(sea_creatures[1:4])
+Stride: list[x:y:z]
+Can use the + operator to concatenate lists together
+Delete: del sea_creatures[1]
+
+LIST METHODS:
+list.append(x) will add an item (x) to the end of a list.
+ list.insert(i,x) method takes two arguments, with i being the index position you would like to add an item to, and x being the item itself.
+ list.remove(x) method which removes the first item in a list whose value is equivalent to x.
+ list.pop([i])
+list.index(x), where x is equivalent to an item value, to return the index in the list where that item is located.
+list.reverse()
+list.count(x) method will return the number of times the value x occurs within a specified list
+list.clear() remove everything
+
+
+LIST COMPREHENSION
+List comprehensions offer a succinct way to create lists based on existing lists. When using list comprehensions, lists can be built by leveraging any iterable, including strings and tuples.
+
+list_variable = [x for x in iterable]
+
+fish_tuple = ('blowfish', 'clownfish', 'catfish', 'octopus')
+fish_list = [fish for fish in fish_tuple if fish != 'octopus']
+
+nested if:
+number_list = [x for x in range(100) if x % 3 == 0 if x % 5 == 0]
+
+
+DICTIONARY METHODS
+dict.keys()
+for common_key in sammy.keys() & jesse.keys() ...
+dict.values()
+dict.items() -> gives keys and values tuple pairs
+
+DEFINING FUNCTIONS
+If you use a return statement with no arguments, the function will return None.
+
+// main 
+def main():
+   hello()
+
+main()
+
+In Python, '__main__' is the name of the scope where top-level code will execute. When a program is run from standard input, a script, or from an interactive prompt, its __name__ is set equal to '__main__'.
+Because of this, there is a convention to use the following construction:
+if __name__ == '__main__':
+# Code to run when this is the main program here
+
+CLASSES & OBJECTS
+class Shark:
+   animal_type = "fish"
+   def __init__(self, name):
+      self.name = name
+   def swim(self):
+      print("The shark is swimming.")
+
+swim() is a method of Shark
+animal_type is a class variable (available to all)
+name is an instance variable (avail to instance)
+

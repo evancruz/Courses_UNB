@@ -19,7 +19,7 @@ class People{
    
 
       let len = 0
-      let names = [];
+
       for (const entry of contents) {
          let age = (entry.died - entry.born) + 1
          let name = entry.name
