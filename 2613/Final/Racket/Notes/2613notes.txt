@@ -1,0 +1,39 @@
+Commit Messages:
+1 line summary (what change is)
+then -> WHY
+
+
+
+Repo
+Configuration
+
+    All repositories URLs are of the form
+
+      https://<user>@vcs.cs.unb.ca/git/<course>-<user>
+
+    where <user> is FCS Linux account username for personal repositories.
+
+    To set up a remote
+
+      git remote add origin $URL
+
+    Here origin is the name of the default remote. You will probably only need
+
+    To change the URL of a remote
+
+      git remote set-url origin $NEWURL
+
+    Authentication is against the FCS LDAP password database (same as login to lab machines)
+
+     % git config credential.https://vcs.cs.unb.ca.username <loginid>
+     % git config credential.helper cache
+
+    
+GIT BOOK
+https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines
+
+
+
+
+ 
+
