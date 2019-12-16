@@ -18,26 +18,6 @@ class ArithSeq:
       return num
    
 
-class ArithSeq2:
-
-   def __init__(self, first, step, max):
-      self.first = first
-      self.step = step
-      self.max = max
-
-   def __iter__(self):
-      return self
-
-   def __next__(self):
-      # think about self less than max to start
-      # if self.first > self.max:
-      #    raise StopIteration
-      # num = self.first
-      # self.first += self.step
-      # return [num]
-
-      return [num ]
-
 
 def test_evens():
     assert [x for x in ArithSeq(0, 2, 10)] == [0, 2, 4, 6, 8, 10]
@@ -48,10 +28,12 @@ def test_odds():
     
 
 def test_evens2():
-    assert ArithSeq2(0, 2, 10) == [0, 2, 4, 6, 8, 10]
+    assert arithSeq2(0, 2, 10) == [0, 2, 4, 6, 8, 10]
+
+def arithSeq2(first, step, max):
+   return [item for item in range(first, max+1, step)]
+
+test_evens2()
 
 
-
-AS = ArithSeq2(1, 2, 10)
-assert AS== [1, 3, 5, 7, 9]
 
