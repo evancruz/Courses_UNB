@@ -1,0 +1,26 @@
+Octave
+
+a = [1,4,5]
+-> gives 1 row
+c = [4;7;10]
+-> gives 1 column
+
+d = [a 6]
+-> appends 6 to the end
+
+e=2:6 
+-> shorthand o create a line of numbers from 2 to 6
+
+zeros(M,N) 
+ones(M,N) 
+
+
+a * 2 
+-> multiplies each number in a vector by 2
+
+if expression statements 
+elseif expression statements 
+else 
+statements 
+end 
+
