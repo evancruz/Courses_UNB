@@ -1,0 +1,32 @@
+What's in buffer?
+User	Pr
+What's in buffer?
+ocess	A
+What's in buffer?
+rrival	
+What's in buffer?
+Duratio
+What's in buffer?
+n
+
+What's in buffer?
+Jim	A	2
+What's in buffer?
+	5
+
+What's in buffer?
+Mary	B	
+What's in buffer?
+2	3
+
+What's in buffer?
+Sue	D	5
+What's in buffer?
+	5
+
+What's in buffer?
+Mary	C	
+What's in buffer?
+6	2
+
+numJobs 12
