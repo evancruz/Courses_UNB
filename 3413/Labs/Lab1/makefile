@@ -3,7 +3,10 @@ CFLAGS= -g -lpthread
 
 
 main: main.c
-	$(CC) main.c -o main
+	$(CC) $(CFLAGS) main.c -o main
+
+main2: main2.c
+	$(CC) $(CFLAGS) main2.c -o main2
 
 clean:
 	rm -f main
