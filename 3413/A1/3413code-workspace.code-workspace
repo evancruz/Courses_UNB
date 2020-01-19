@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "/Users/mcruz/Documents/UNB/Courses_UNB/3413/A2"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"math.h": "c",
+			"string.h": "c"
+		}
+	}
+}

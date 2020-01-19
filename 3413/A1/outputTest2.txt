@@ -1,0 +1,22 @@
+Time	Job
+2	B
+3	B
+4	B
+5	A
+6	A
+7	A
+8	D
+9	D
+10	D
+11	C
+12	C
+13	A
+14	A
+15	D
+16	D
+17	IDLE
+
+Summary
+Jim	15
+Mary	13
+Sue	17

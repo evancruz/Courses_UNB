@@ -9,14 +9,13 @@ struct JobList{
    char *process[100];
    int arrival;
    int duration;
-   int runningTime;
    int priority;
    struct JobList *next;
 };
 
 struct User{
    char *user[100];
-   int finishTime;
+   int completedTime;
    struct User *next;
 };
 
@@ -45,10 +44,7 @@ struct User *headUser = NULL;
  * MAIN                                                                                        *
  *                                                                                                 *
  * *************************************************************/
-//THINGS TO REMEMBER:
-//1. delete printf statements!!!!
-//2. fix insert front to be more code friendly (no copy pasta)
-//3. need to make an input where there is an idle spot before getting more jobs
+
 int main (int argc, char const *argv[]) {
    if(argc != 2){
       printf("Please provide 1 argument for the amount of CPU's \nExample: ./main 3\n");
@@ -67,15 +63,15 @@ int main (int argc, char const *argv[]) {
    }
    printf("\n");
 
-   //start cpu time
+   /*Start cpu time
+   *Run until both both Run List and Job List are empty */
+
    int time = 0;
-   //run until both both Run List and Job List are empty
    while(headRL || headJL){
          struct JobList * job;
 
          /*if there are still jobs left in JL then check for a job request
          * Insert job requests into the Run List (RL)*/
-        NEXTREQUEST:
          if(headJL){
             while(job = nextJobRequest(time)){
                //insert to RunList based on criteria. Remove from JL
@@ -98,6 +94,7 @@ int main (int argc, char const *argv[]) {
                if(!headRL){
                   if(!headJL)
                      goto END;
+                  printf("%d\t%s\n", time, "IDLE");
                   goto NEXTREQUEST;
                }
             } else {
@@ -124,7 +121,7 @@ int main (int argc, char const *argv[]) {
         
       }//go to next cpu cycle
 
-      //after time++ continue? so i can put printidle?
+      NEXTREQUEST:
       time++;
    }//end run time
    END:
@@ -132,7 +129,7 @@ int main (int argc, char const *argv[]) {
    printf("Summary\n");
    struct User * node = headUser;
    while(node){
-      printf("%s\t%d\n", node->user, node->finishTime);
+      printf("%s\t%d\n", node->user, node->completedTime);
       node = node->next;
    }
 
@@ -193,8 +190,7 @@ void printJobList(struct JobList *head){
    printf("done print\n");
 }
 
-//returns a node from the JL list if time is equal to arrival
-struct JobList * nextJobRequest(int time) {
+struct JobList * nextJobRequest(int time) { 
    struct JobList *nodeJL = headJL;
    while(nodeJL){
       if(nodeJL->arrival == time){
@@ -223,83 +219,92 @@ struct JobList * removeJob(struct JobList *node, struct JobList *head){
          current = current->next;
       }
       //if it reaches here then it means no job was removed
-      printf("no job was removed\n");
       return head;
    }
 }
 
+//this runs after every job is added to runlist
 void insertRunList(struct JobList *job, int time){
-   //this runs after every job is added to runlist
    if(!headRL){
-      insertFront(job, headRL);
-   }else{
+      insertFront(headRL, job);
+      return;
+   } else{
       struct JobList *node = headRL;
       while(node->next){
-         if(node->arrival == job->arrival && node->duration > job->duration){
-            insertBehind(node, job);
+         if(node->priority > job->priority){
+            insertFront(node, job);
             return;
-         } else {
-            node = node->next;
          }
-      } //if no node next we are at end
-      //make comparison. 
-      if(node->arrival == job->arrival && node->duration > job->duration){
-            insertBehind(node, job);
-         } else {
-            insertFront(job, headRL);
+         if((node->priority == job->priority) && (node->duration > job->duration)){
+            insertFront(node, job);
+            return;
          }
+         if(node->duration == job->duration && (node->arrival > job->arrival)){
+            insertFront(node, job);
+            return;
+         }
+         node = node->next;
+      } 
+      //we are at end node. make comparison
+      if(node->priority > job->priority){
+         insertFront(node, job);
+         return;
+      }
+      if((node->priority == job->priority) && (node->duration > job->duration)){
+         insertFront(node, job);
+         return;
+      }
+      if(node->duration == job->duration && (node->arrival > job->arrival)){
+         insertFront(node, job);
+         return;
+      }
+      insertBehind(node, job);
    }
 }
 
-
-
-void insertFront(struct JobList *job, struct JobList *head){
+void insertFront(struct JobList *node, struct JobList *job) {
    struct JobList *runListTask = malloc(sizeof(struct JobList));
    strcpy(runListTask->user, job->user);
    strcpy(runListTask->process, job->process);
    runListTask->arrival = job->arrival;
    runListTask->duration = job->duration;
-   runListTask->runningTime = 0;
-   runListTask->next = NULL;
-   if(head == NULL){
+   runListTask->priority = job->priority;
+   if(headRL == NULL){
       headRL = runListTask;
+      runListTask->next = NULL;
    } else {
-      struct JobList *endOfList = head;
-      while(endOfList->next){
-         endOfList= endOfList->next;
+      if(isSameNode(node, headRL)){
+         runListTask->next = node;
+         headRL = runListTask;
+      } else {
+         struct JobList * previousToNode = headRL;
+         while(previousToNode->next){
+            if(isSameNode(previousToNode->next, node)){
+               previousToNode->next = runListTask;
+               runListTask->next = node;
+               break;
+            }
+            previousToNode = previousToNode->next;
+         }
       }
-      endOfList->next = runListTask;
    }
     createUser(runListTask->user);
 }
 
-/*
-*   node is RL. node2 is JL job
-*   case 1 behind head
-*   case 2 after head (middle node)
-*/
-void insertBehind(struct JobList *node, struct JobList *node2){
-
+//only gets run if there is at least 1 in RL
+void insertBehind(struct JobList *node, struct JobList *job){
    struct JobList *runListTask = malloc(sizeof(struct JobList));
-   strcpy(runListTask->user, node2->user);
-   strcpy(runListTask->process, node2->process);
-   runListTask->arrival = node2->arrival;
-   runListTask->duration = node2->duration;
-   runListTask->runningTime = 0;
+   strcpy(runListTask->user, job->user);
+   strcpy(runListTask->process, job->process);
+   runListTask->arrival = job->arrival;
+   runListTask->duration = job->duration;
+   runListTask->priority = job->priority;
+   runListTask->next = NULL;
 
-   if(strcmp(node->process, headRL->process)==0){
-      runListTask->next = node;
-      headRL = runListTask;
-   } else {
-      struct JobList *ptr = headRL;
-      while(ptr->next != node){
-         ptr=ptr->next;
-      }
-      ptr->next = runListTask;
-      runListTask->next = node;
-   }
+   node->next = runListTask;
    createUser(runListTask->user);
 }
+
 
 //move task to the back and bring the next one in line to the front
 void nextTask(){
@@ -366,7 +371,7 @@ struct JobList * moveToBack(struct JobList *node, struct JobList *head){
 bool isSameNode(struct JobList *node1, struct JobList *node2){
    if(strcmp(node1->process, node2->process)==0)
       return true;
-   else 
+   else
       return false;
 }
 
@@ -374,7 +379,7 @@ void recordFinish(char * userName, int time){
    struct User *node= headUser;
    while(node){
       if(strcmp(node->user, userName) == 0){
-         node->finishTime = time;
+         node->completedTime = time;
          return;
       }
       node = node->next;
@@ -382,22 +387,24 @@ void recordFinish(char * userName, int time){
 }
 
 void createUser(char * name){
+   struct User *newUser = malloc(sizeof(struct User));
    if(!headUser){
-      headUser = malloc(sizeof(struct User));
+      headUser = newUser;
       strcpy(headUser->user, name);
       headUser->next = NULL;
    } else {
       struct User *node = headUser;
       while(node->next){
          if(strcmp(node->user, name) ==0){
+            free(newUser);
             return;
          }
          node = node->next;
       }
       if(strcmp(node->user, name)==0){
+            free(newUser);
             return;
       } else {
-         struct User *newUser = malloc(sizeof(struct User));
          node->next = newUser;
          strcpy(newUser->user, name);
          newUser->next = NULL;
