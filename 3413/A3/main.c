@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <pthread.h>
 
  /*LISTS*/
 struct JobList{
@@ -42,6 +43,7 @@ struct JobList *headJL = NULL;
 struct JobList *headRL = NULL;
 struct User *headUser = NULL;
 int missedDeadlines = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /***************************************************************
  * MAIN                                                                                        *
@@ -113,6 +115,10 @@ int main (int argc, char const *argv[]) {
         struct JobList * node = headRL;
 
          //run through a cycle
+          /* pthread_t  p_thread;       
+            pthread_create(&p_thread, NULL, do_loop, (void*)&a); 
+            */
+
          node = headRL;
          printf("%d\t", time);
          for(numCPU = 1; numCPU <= cores; numCPU++){
