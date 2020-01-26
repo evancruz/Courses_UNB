@@ -23,20 +23,19 @@ struct User{
 
 
 //FunctionDeclarations
+void printList(struct Task *head);
 void getJobRequests();
-void printTask(struct Task *head);
 struct Task * nextJobRequest(int time);
 struct Task * removeJob(struct Task *node, struct Task *head);
-void addToRunList(struct Task *node);
 void insertRunList(struct Task *job, int time);
 void insertFront(struct Task *job, struct Task *head);
 void insertBehind(struct Task *node, struct Task *node2);
 void nextTask();
 bool isDone(struct Task *node);
-struct Task * moveToBack(struct Task *node, struct Task *head);
 void createUser(char * user);
-void recordFinish(char * userName, int time);
+struct Task * moveToBack(struct Task *node, struct Task *head);
 bool isSameNode(struct Task *node1, struct Task *node2);
+void recordFinish(char * userName, int time);
 void * processJob (struct Task *node);
 
 //constants and globals
@@ -57,12 +56,10 @@ int main (int argc, char const *argv[]) {
       exit(EXIT_FAILURE);
    }
    int const cores = ((int)*argv[1])-48;
-   //atoi(*(argv[1]))
    int numCPU;
 
    //fill Task. JobList points to it
    getJobRequests();
-
    //Print Titles
    printf("Time\t");
    for(numCPU = 1; numCPU <= cores; numCPU++){
@@ -72,10 +69,11 @@ int main (int argc, char const *argv[]) {
 
    //make an array of pthreads equal to number of CPU's
    pthread_t * pthreadPtr = malloc(sizeof(pthread_t) * numCPU);
-   // pthread_t * pid = (malloc(sizeof(pthread_t)));
 
 
-   /*Start cpu time
+
+   /****************
+    * Start cpu time
    *Run until both both Run List and Job List are empty */
    int time = 0;
    while(RunList || JobList){
@@ -120,27 +118,11 @@ int main (int argc, char const *argv[]) {
 
         struct Task * node = RunList;
 
-         //run through a cycle
-          /*  
-            pthread_create(&p_thread, NULL, do_loop, (void*)&a); 
-            pthreadPtr (&thread[i])
-            */
-           /*
-           Each thread should act as a cpu and remove a job from the run queue and then sleep() for
-1 second to represent 1 unit of execution time for the task. Once it is completed sleeping
-then it will repeat and select the next task to execute for 1 second – which may be the same
-task! Be careful to protect your shared data by using locks to control access!*/
-
-//				pthread_t * pid = (malloc(sizeof(pthread_t)));
-				// pthread_create(pid, NULL, &processJob, list);
-				// pthread_join(*pid, NULL);
-
          node = RunList;
          printf("%d\t", time);
          for(numCPU = 1; numCPU <= cores; numCPU++){
             pthread_create(&(pthreadPtr[numCPU-1]), NULL, processJob, node); 
             pthread_join(pthreadPtr[numCPU-1], NULL);
-            // pthread_join(*pid, NULL);
             if(node){
                printf("%s\t", node->process);
                node = node->next;
@@ -150,17 +132,12 @@ task! Be careful to protect your shared data by using locks to control access!*/
          }
          printf("\n");
         
-      }//go to next cpu cycle
-
+      }
+      //go to next cpu cycle
       NEXTREQUEST:
       time++;
-   }//end run time
-
-/*
-* After the summary of when people’s jobs are completed you are to print the number of jobs that missed their deadline. 
-* That is jobs whose last execution was after the deadline that was specified. For example: 2 missed deadlines
-*/
-
+   }
+   //end run time
    END:
    printf("%d\tIDLE\n\n", time);
    printf("Summary\n");
@@ -187,6 +164,17 @@ task! Be careful to protect your shared data by using locks to control access!*/
  * Functions                                                                                  *
  *                                                                                                 *
  * *************************************************************/
+void printList(struct Task *head){
+   if(head == NULL){
+      printf("NULL\n");
+   } else {
+      while(head){
+         printf("%s %s %d %d %d\n", head->user, head->process, head->arrival, head->duration, head->deadline);
+         head = head->next;
+      }
+   }
+   printf("done print\n");
+}
 
 void getJobRequests(){
    int max = 1000;
@@ -216,18 +204,6 @@ void getJobRequests(){
    }
 }
 
-void printTask(struct Task *head){
-   if(head == NULL){
-      printf("NULL\n");
-   } else {
-      while(head){
-         printf("%s %s %d %d %d\n", head->user, head->process, head->arrival, head->duration, head->deadline);
-         head = head->next;
-      }
-   }
-   printf("done print\n");
-}
-
 struct Task * nextJobRequest(int time) { 
    struct Task *nodeJL = JobList;
    while(nodeJL){
@@ -240,7 +216,7 @@ struct Task * nextJobRequest(int time) {
 }
 
 struct Task * removeJob(struct Task *node, struct Task *head){
-   if(strcmp(node->process,head->process) == 0){
+   if(isSameNode(node, head)){
       head = node->next;
       free(node);
       return head;
@@ -248,7 +224,7 @@ struct Task * removeJob(struct Task *node, struct Task *head){
       struct Task *prev = head;
       struct Task *current = head->next;
       while(current){
-         if(strcmp(node->process, current->process) == 0){
+         if(isSameNode(node, current)){
             prev->next = current->next;
             free(current);
             return head;
@@ -261,7 +237,7 @@ struct Task * removeJob(struct Task *node, struct Task *head){
    }
 }
 
-//this runs after every job is added to runlist
+//TO DO: fix up statements
 /* When considering what job to complete, you pick the job that has the earliest deadline. 
 * To break ties, you pick the shortest job first. If you still have a tie then you pick the job that arrived first.
 */
@@ -371,7 +347,6 @@ void nextTask(){
       }
    }
 }
-
 
 bool isDone(struct Task *node){
    if(node->duration == 0) 
