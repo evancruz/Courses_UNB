@@ -1,9 +1,9 @@
 CC=gcc
-CFLAGS= -g -Wall -lpthread
+CFLAGS= -g -Wall 
 
 
 main: main.c
-	$(CC) main.c -o main
+	$(CC) main.c -o main -lpthread
 
 clean:
 	rm -f main
