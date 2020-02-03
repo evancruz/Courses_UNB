@@ -19,6 +19,8 @@ struct User{
    struct User *next;
 };
 
+
+
 //FunctionDeclarations
 void getJobRequests();
 void printJobList(struct JobList *head);

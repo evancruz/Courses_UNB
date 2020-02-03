@@ -1,42 +1,105 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
- 
+#include <stdbool.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+//functions
+void produceOxygen();
+int getRandomNum();
+void produceHydrogen();
+void produceWater();
 
 //globals
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+bool FINISH;
+int hydrogen = 0;
+int oxygen = 0;
+int runTime;
+bool oxyFlag;
+bool hydFlag;
 
-//protos
-// pthread_create(&avgThread, NULL, getAvg, numInput); 
 
-/*requirements
-You do not want extra hydrogen or oxygen elements. Therefore, you must guarantee that the producing threads 
-(hydrogen and oxygen) will wait to produce more elements until after the water molecule is created. 
-EX: If an oxygen thread produces oxygen when no hydrogen is present, it has to wait
-for two hydrogen elements to be produced.
-It takes a random amount of time, between 2 and 5 seconds, to create each hydrogen or oxygen element.
-
-When an element is created you are to output what was produced. For example,
-We have hydrogen. We have oxygen.
-
-When you have two hydrogen and one oxygen, they are consumed to form water. For example,
-     We now have water!
-
-Your program will run for n seconds, where n is specified on the command line (ie. 100 seconds):
-./a.out 100
-*/
 int main (int argc, char const *argv[]) {
     if(argc != 2){
       printf("Please provide 1 argument for the amount of time to run \nExample: ./main 100\n");
       exit(EXIT_FAILURE);
    }
-   int runTime = ((int)*argv[1])-48;
-   pthread_t * Oxygen;
-   pthread_t * Hydrogen;
-   pthread_t * Bond;
-   //The sranddev() function initializes a seed, using random(4)
-   sranddev();
-   int random = ((rand()%5)+2) %6;
+   //The sranddev() function initializes a seed, using random(4)  
+   sranddev(); 
+   runTime = atoi(argv[1]);
+   oxygen = 0;
+   hydrogen = 0;
+   oxyFlag = false;
+   hydFlag = false;
+   pthread_t OxygenT;
+   pthread_t HydrogenT;
+   pthread_t BondT;
 
+
+   pthread_create(&OxygenT, NULL, (void *) produceOxygen, NULL);
+   pthread_create(&HydrogenT, NULL, (void *) produceHydrogen, NULL);
+   pthread_create(&BondT, NULL, (void *) produceWater, NULL);
+   pthread_join(OxygenT, NULL);
+   pthread_join(HydrogenT, NULL);
+   pthread_join(BondT, NULL);
    
+}
+
+ 
+void produceOxygen(){
+   int ready = getRandomNum();
+   int i = 0;
+   while(i  < runTime){
+      // printf("oxy i: %d\n", i);
+      pthread_mutex_lock(&mutex);
+      if(oxygen == 0 && ready <= 0) {
+         oxygen++;
+         printf("%s\n", "We have oxygen.");
+         ready = getRandomNum() + 1;
+      }
+      pthread_mutex_unlock(&mutex);
+      ready--;
+      i++;
+      sleep(1);
+   }
+}
+
+void produceHydrogen(){
+   int ready = getRandomNum();
+   int i = 0;
+   while(i  < runTime){
+      // printf("hyd i: %d\n", i);
+      pthread_mutex_lock(&mutex);
+      if(hydrogen < 2 && ready <= 0) {
+         hydrogen++;
+         printf("%s\n", "We have hydrogen.");
+         ready = getRandomNum() + 1;
+      }
+      pthread_mutex_unlock(&mutex);
+      ready--;
+      i++;
+      sleep(1);
+   }
+}
+
+void produceWater(){
+   int i = 0;
+   while(i  < runTime){
+      // printf("water i: %d\n", i);
+      pthread_mutex_lock(&mutex);
+      if(oxygen == 1 && hydrogen == 2) {
+         printf("%s\n", "We have water!");
+         oxygen = 0;
+         hydrogen = 0;
+      }
+      pthread_mutex_unlock(&mutex);
+      i++;
+      sleep(1);
+   }
+}
+
+int getRandomNum(){
+   return ((rand()%5)+2) %6;
 }
