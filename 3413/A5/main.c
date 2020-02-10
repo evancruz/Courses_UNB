@@ -4,6 +4,8 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include <semaphore.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 //structs
 struct Car{
@@ -28,15 +30,13 @@ void removeCar(struct Car * car, char * direction);
 
 
 //globals
-// pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 sem_t mutex; 
 struct Car * NorthList = NULL;
 struct Car * SouthList = NULL;
 int numCars = 0;
 bool allCrossed = false;
-//need mutex on this
 bool carsOnBridge = false;
-int timer;
+char trafficFlow = '0';
 
 /*PROTOS
 
@@ -45,11 +45,12 @@ int sem_init(sem_t *sem, int pshared, unsigned int value);
 */
 
 /***************************************************************
-* MAIN PROGRAM                                                                        *
-*ASSUMPTIONS:                                                                          *
-* An old bridge across a river has only one lane so cars can travel  *
-* in just one direction at a time. Doesn't say there's a limit to how   *
-* many cars can be on the bridge crossing at once                         *                                                                                                 *
+* MAIN PROGRAM                                                                     *
+*ASSUMPTIONS:                                                                       *
+* An old bridge across a river has only one lane so cars can travel*
+* in just one direction at a time. Doesn't say there's a limit to how *
+* many cars can be on the bridge crossing at once. For example:   *
+* there could be 5 cars on the bridge going South                        *
 ***************************************************************/
 int main (int argc, char const *argv[]) {
    getCars();
@@ -60,10 +61,9 @@ int main (int argc, char const *argv[]) {
    vehicleS = SouthList;
 
    //start time
-   //change timer from 100  to last car has crossed
    sem_init(&mutex, 0, 1); 
- 
-   for(timer = 0; timer < 100 && !allCrossed; timer++){
+   int timer;
+   for(timer = 0; !allCrossed; timer++){
    if(vehicleN){
       if(vehicleN->arrival == timer){
       pthread_create(&car[i], NULL, (void *) bridgeArrival, vehicleN);
@@ -79,11 +79,7 @@ int main (int argc, char const *argv[]) {
       }
    }
 
-   printf("time: %d\n", timer); // time display
-   //this condition will have to be worked around a litle
-   //allCrossed should be changed in a separate method.. ie bridgeArrival
-   // if(!vehicleN && !vehicleS)
-   //    allCrossed = true;
+   // printf("time: %d\n", timer); // time display
    sleep(1);
   }
 
@@ -92,7 +88,7 @@ int main (int argc, char const *argv[]) {
       pthread_join(car[i], NULL);
    }
 
-   printf("freeing\n");
+   //ensure that lists are freed
    freeList(NorthList);
    freeList(SouthList);
    
@@ -102,8 +98,8 @@ int main (int argc, char const *argv[]) {
 
 
 /***************************************************************
-* FUNCTION IMPLEMENTATIONS                                                 *
-*                                                                                                 *
+* FUNCTION IMPLEMENTATIONS                                                *
+*                                                                                            *
 ***************************************************************/
 
 void getCars(){
@@ -223,6 +219,10 @@ void freeList(struct Car * head){
 
 void * bridgeArrival(struct Car * carIn){
    //check for direction of traffic, if any cars are crossing
+   if(carIn->direction == trafficFlow){
+      goto GETONBRIDGE;
+   }
+
    sem_wait(&mutex);
    while(carsOnBridge){
       sem_post(&mutex);
@@ -231,33 +231,41 @@ void * bridgeArrival(struct Car * carIn){
    } //no cars on bridge. can cross
    carsOnBridge = true;
    sem_post(&mutex);
+
+   GETONBRIDGE:
    carIn->onBridge = true;
-   printf("Direction: %c\n", carIn->direction);
-   printf("%s's car has crossed! at time %d\n", carIn->driver, timer);
+   if(trafficFlow != carIn->direction){
+      trafficFlow = carIn->direction;
+      printf( "Direction: %s\n", trafficFlow == 'N' ? "North": "South");
+   }
+   while(carIn->duration >= 0){
+      carIn->duration--;
+      sleep(1);
+   }
    //need to delete off list
    //if list is empty then set allCarsPassed to true
    if(carIn->next){
       if(carIn->next->onBridge == false){
-         sem_wait(&mutex);
-         carsOnBridge = false;
-         sem_post(&mutex);
+      sem_wait(&mutex);
+      carsOnBridge = false;
+      sem_post(&mutex);
       }
-   } else {
+   } else { //there is no next car
       sem_wait(&mutex);
       carsOnBridge = false;
       sem_post(&mutex);
    }
-   removeCar(carIn, carIn->direction);
+   printf("%s \n", carIn->driver);
+   removeCar(carIn, &(carIn->direction));
+
    if(!NorthList && !SouthList)
       allCrossed = true;
 }
 
-//think about how to remove while there could still be cars to come in arriving
 //list is already in order so carIn should actually be head
-void removeCar(struct Car *carIn, char * direction){
-   // printf("here remove\n");
+void removeCar(struct Car * carIn, char * direction){
    struct Car * car;
-   if(direction == 'N'){
+   if(*direction == 'N'){
       car = NorthList;
       NorthList = NorthList->next;
    } else {
@@ -265,18 +273,4 @@ void removeCar(struct Car *carIn, char * direction){
       SouthList = SouthList->next;
    }
    free(car);
-   // printf("here after remove\n");
 }
-
-
-/***************************************************************
-*EXTRA                                                                                   *
-*Code / Notes                                                                          *
-***************************************************************/
-/*
-   struct Car car1;
-   car1.direction = 'A';
-   if(car1.direction == 'A'){
-      printf("%s\n", "yes");
-   }
-*/
