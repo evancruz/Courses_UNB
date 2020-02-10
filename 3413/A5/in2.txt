@@ -1,0 +1,7 @@
+Moses N 1 8
+Kim S 1 3
+Jim   N  2  5
+Mark  N  3 5
+Mary  N  6  5
+Sue   S  8  5
+
