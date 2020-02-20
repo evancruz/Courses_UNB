@@ -9,7 +9,7 @@
 
 //structs
 struct Car{
-  char * driver[1000];
+  char driver[1000];
   char direction;
   int arrival;
   int duration;
@@ -78,7 +78,6 @@ int main (int argc, char const *argv[]) {
          i++;
       }
    }
-
    // printf("time: %d\n", timer); // time display
    sleep(1);
   }
@@ -87,7 +86,6 @@ int main (int argc, char const *argv[]) {
    for(i = 0; i < numCars; i++){
       pthread_join(car[i], NULL);
    }
-
    //ensure that lists are freed
    freeList(NorthList);
    freeList(SouthList);
