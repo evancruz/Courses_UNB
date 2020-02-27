@@ -14,9 +14,6 @@ Minor page fault: occurs when the page fault handler is able to successfully map
 
 Major page fault: If the page fault handler has to incur disk I/O to satisfy the page request then it becomes a major page fault. Example: The handler has to reclaim physical pages that were swapped out earlier and now has to read from the previously swapped-out page. 
 
-3) Yes but I don't know how
-
-Can you cause the system to NOT run out of memory, but to perform a heavy
-amount of paging? How did you achieve this? 
+3) Yes, by opening a virtual machine (which is allocated a subset of frames) and opening several programs inside of the VM. The physical memory ran low, but the virtual memory thinks there is still lots of memory left. Running programs inside the VM causes the frames to constantly swap which leads to heavy paging. 
 
 
