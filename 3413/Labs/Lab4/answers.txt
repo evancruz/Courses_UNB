@@ -1,0 +1,22 @@
+1) I started firefox, chrome, gimp, text edit, writer
+I noticed that the free memory amount decreased, amount of memory used as cache increased, blocks sent to a block device increased, and time spent running kernel code increased. 
+
+2) Greatest # of page faults: 256328      0 /usr/libexec/udisks2/udisks 
+
+Linux uses a virtual memory system, so any address referenced by a user application is actually mappped from it's own virtual address space to a physical address on the harddrive. Furthermore, when a user application tries to malloc memory it, as mentioned before, mallocs within its own virtual address space BUT the kernel by default does not map any physical pages for the process immediately. 
+
+Also, The OS can "take" pages from one application and give it to a different application when it needs to (such as during a memory shortage scenario) but this can on occasion rise to page faults. 
+
+Page faults are caused when a process tries to access any of its virtual address that has already been swapped (since there are now no physical pages mapped in its page table). 
+
+Minor page fault: occurs when the page fault handler is able to successfully map a physical page for the user-space virtual address. 
+
+
+Major page fault: If the page fault handler has to incur disk I/O to satisfy the page request then it becomes a major page fault. Example: The handler has to reclaim physical pages that were swapped out earlier and now has to read from the previously swapped-out page. 
+
+3) Yes but I don't know how
+
+Can you cause the system to NOT run out of memory, but to perform a heavy
+amount of paging? How did you achieve this? 
+
+
