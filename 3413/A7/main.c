@@ -4,15 +4,13 @@
 #include <math.h>
 #include <stdbool.h>
 
-// #include <sys/wait.h>
-// #include <unistd.h>
-
 //FUNCTION DECLARATIONS
 void initializeFrames();
 void freeFrames();
 long int check(long int table);
 long int isAvail();
 void translate(long int logAddress, long int offset, long int index);
+void fifo(long int * PMEM, long int pageTableNum);
 
 //GLOBALS
 long int * PMEM;
@@ -26,10 +24,7 @@ long int pageSize;
 
 /***************************************************************
 *MAIN                                                          *           
-* A page is 2^12 = 4 kb. (a frame is also 2^12 in size).       *
-* the page table has 2^20 entries                              *
-*Your process has been allocated n frames. n is a parameter to *
-* your program on the command line.                            *
+*                                                              *
 ***************************************************************/
  
 int main (int argc, char const *argv[]) {
@@ -55,39 +50,38 @@ int main (int argc, char const *argv[]) {
   long int logAddress;
   int numRead = scanf("%ld\n", &logAddress);
   while(numRead == 1){
-    // printf("address: %ld\n", address);
     //ensure address is within range
     if(logAddress > pow(2,32)){
       printf("Address is too largy, only 2^32 memory available\n");
     }
     else if(logAddress < 0){
       printf("positive address only\n");
-    }
-    
-    long int pageTableNum = logAddress >> 12; //keeps leftmost 20 bits
-    long int offset = logAddress & offsetMask;
-    long int index = check(pageTableNum);
-    // printf("logAdd: %ld pageTableNum %ld\n", logAddress, pageTableNum);
-    if(index != -1){
-      translate(logAddress, offset, index);
     } else {
-      //PAGE FAULT
-  		pageFaults++;
-
-  		//FIND EMPTY FRAME
-  		if (usedFramesCount != numFrames) {
-        printf("ufc: %d\n", usedFramesCount);
-  			PMEM[usedFramesCount] = pageTableNum;
-  			translate(logAddress, offset, usedFramesCount);
-  			usedFramesCount++;
-  		}
-
+      long int pageTableNum = logAddress >> 12; //keeps leftmost 20 bits
+      long int offset = logAddress & offsetMask;
+      long int index = check(pageTableNum);
+      //if != -1 that means the frame is stored
+      if(index != -1){
+        translate(logAddress, offset, index);
+      } else {
+        //PAGE FAULT
+        pageFaults++;
+        //FIND EMPTY FRAME
+        if (usedFramesCount < numFrames) {
+          PMEM[usedFramesCount] = pageTableNum;
+          translate(logAddress, offset, usedFramesCount);
+          usedFramesCount++;
+        } else {
+          //use fifo to swap out first frame and put new one at the end
+          fifo(PMEM, pageTableNum);
+          translate(logAddress, offset, numFrames-1);
+        }
+      }
     }
     //get next address
     numRead = scanf("%ld\n", &logAddress);
   }//while 
   printf("Total number of Page Faults: %d\n", pageFaults);
-
   freeFrames();
 
 }
@@ -124,5 +118,17 @@ long int check(long int pageTableNum) {
 }
 
 void translate(long int logAddress, long int offset, long int index) {
-  printf("%ld --> %ld\n\n", logAddress, index * pageSize + offset);
+  printf("%ld --> %ld\n", logAddress, index * pageSize + offset);
+}
+
+void fifo(long int * PMEM, long int pageTableNum){
+  if(numFrames == 1){
+    PMEM[0] = pageTableNum;
+  } else {
+    int i, j;
+    for(i = 0, j = 1; j < numFrames; i++, j++){
+      PMEM[i] = j;
+    }
+    PMEM[i] = pageTableNum;
+  }
 }
