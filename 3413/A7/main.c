@@ -118,7 +118,7 @@ long int check(long int pageTableNum) {
 }
 
 void translate(long int logAddress, long int offset, long int index) {
-  printf("%ld --> %ld\n", logAddress, index * pageSize + offset);
+  printf("%ld -> %ld\n", logAddress, index * pageSize + offset);
 }
 
 void fifo(long int * PMEM, long int pageTableNum){
